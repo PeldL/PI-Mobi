@@ -206,6 +206,23 @@ public class NPCDialogueEnemy : MonoBehaviour
         audioSourceDialogo.PlayOneShot(somLetra, volumeSomLetra);
     }
 
+    // ⭐⭐ MÉTODO PARA BOTÃO MOBILE (OnClick direto no NPC) ⭐⭐
+    public void BotaoMobileInteragir()
+    {
+        if (playerInRange)
+        {
+            if (!startDialogue)
+            {
+                FindFirstObjectByType<CharacterController2D>().SetSpeed(0f);
+                StartDialogue();
+            }
+            else if (dialogueText.text == dialogueNpc[dialogueIndex])
+            {
+                nextDialogue();
+            }
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))

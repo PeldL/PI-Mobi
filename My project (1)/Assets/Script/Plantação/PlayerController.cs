@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,15 +9,15 @@ public class PlayerController : MonoBehaviour
     public KeyCode harvestKey = KeyCode.H;
     public float interactRange = 1.5f;
 
-    [Header("Refer�ncias")]
+    [Header("Referências")]
     [SerializeField] private CropData selectedCrop;
 
     void Start()
     {
         if (selectedCrop != null)
         {
-            Debug.Log($"[INVENT�RIO] Adicionadas 5 sementes de {selectedCrop.cropName} para teste");
-            InventorySystem.Instance.AddItem(selectedCrop.seedItem,0);
+            Debug.Log($"[INVENTÁRIO] Adicionadas 5 sementes de {selectedCrop.cropName} para teste");
+            InventorySystem.Instance.AddItem(selectedCrop.seedItem, 0);
         }
     }
 
@@ -34,12 +34,33 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(harvestKey)) Interact("Harvest");
     }
 
+    // ⭐⭐ MÉTODOS PARA BOTÕES MOBILE ⭐⭐
+    public void BotaoMobileArar()
+    {
+        Interact("Till");
+    }
+
+    public void BotaoMobileRegar()
+    {
+        Interact("Water");
+    }
+
+    public void BotaoMobilePlantar()
+    {
+        Interact("Plant");
+    }
+
+    public void BotaoMobileColher()
+    {
+        Interact("Harvest");
+    }
+
     void Interact(string action)
     {
         Collider2D[] spots = Physics2D.OverlapCircleAll(transform.position, interactRange);
         if (spots.Length == 0)
         {
-            Debug.LogWarning("[AVISO] Nenhum local de plantio pr�ximo!");
+            Debug.LogWarning("[AVISO] Nenhum local de plantio próximo!");
             return;
         }
 
@@ -50,8 +71,14 @@ public class PlayerController : MonoBehaviour
 
             switch (action)
             {
-                case "Till": farmingSpot.Till(); break;
-                case "Water": farmingSpot.Water(); break;
+                case "Till":
+                    farmingSpot.Till();
+                    Debug.Log("🪴 Arando a terra (mobile)");
+                    break;
+                case "Water":
+                    farmingSpot.Water();
+                    Debug.Log("💧 Regando (mobile)");
+                    break;
                 case "Plant":
                     if (selectedCrop == null)
                     {
@@ -59,10 +86,21 @@ public class PlayerController : MonoBehaviour
                         return;
                     }
                     farmingSpot.Plant(selectedCrop);
+                    Debug.Log($"🌱 Plantando {selectedCrop.cropName} (mobile)");
                     break;
-                case "Harvest": farmingSpot.Harvest(); break;
+                case "Harvest":
+                    farmingSpot.Harvest();
+                    Debug.Log("✂️ Colhendo (mobile)");
+                    break;
             }
         }
+    }
+
+    // Método para selecionar uma cultura (se você tiver UI para isso)
+    public void SelecionarCultura(CropData novaCultura)
+    {
+        selectedCrop = novaCultura;
+        Debug.Log($"🌿 Cultura selecionada: {selectedCrop.cropName}");
     }
 
     void OnDrawGizmosSelected()

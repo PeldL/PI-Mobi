@@ -23,6 +23,15 @@ public class PocoRegador : MonoBehaviour
         }
     }
 
+    // ⭐⭐ MÉTODO PARA BOTÃO MOBILE (OnClick direto no poço) ⭐⭐
+    public void BotaoMobileInteragir()
+    {
+        if (jogadorPerto && !regadorJaDado)
+        {
+            TentarEntregarPocoes();
+        }
+    }
+
     void TentarEntregarPocoes()
     {
         // 🔥 CORRIGIDO: Agora verifica 2 poções em vez de 3

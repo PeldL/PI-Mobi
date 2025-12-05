@@ -189,9 +189,6 @@ public class RecipeVendorDialogue : MonoBehaviour
                 // SENÃO, substitui a imagem principal (apenas se for sprite de boca)
                 else if (imagemNpc != null)
                 {
-                    // Cria um sprite combinado (NPC + boca animada)
-                    // Para simplificar, vamos usar apenas o sprite da boca como temporário
-                    // Em um sistema mais avançado, você criaria sprites combinados
                     imagemNpc.sprite = spritesBoca[frameAtual];
                 }
             }
@@ -386,6 +383,22 @@ public class RecipeVendorDialogue : MonoBehaviour
 
         if (painelDialogo != null) painelDialogo.SetActive(true);
         StartCoroutine(DigitarTexto());
+    }
+
+    // ⭐⭐ MÉTODO PARA BOTÃO MOBILE (OnClick direto no NPC) ⭐⭐
+    public void BotaoMobileInteragir()
+    {
+        if (jogadorPerto)
+        {
+            if (!emDialogo)
+            {
+                IniciarDialogo();
+            }
+            else if (!digitando)
+            {
+                ProximaLinha();
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D col)

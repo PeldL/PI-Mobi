@@ -3,8 +3,8 @@
 public class UIInteracaoComPrompt : MonoBehaviour
 {
     [Header("Referências")]
-    public GameObject promptE;    
-    public GameObject painelUI;    
+    public GameObject promptE;
+    public GameObject painelUI;
     public KeyCode teclaInteracao = KeyCode.E;
 
     private bool jogadorPerto = false;
@@ -22,14 +22,28 @@ public class UIInteracaoComPrompt : MonoBehaviour
     {
         if (jogadorPerto && Input.GetKeyDown(teclaInteracao))
         {
-            Debug.Log("E pressionado. Abrindo painel e escondendo prompt.");
-
-            if (painelUI != null)
-                painelUI.SetActive(true);
-
-            if (promptE != null)
-                promptE.SetActive(false);
+            AbrirPainel();
         }
+    }
+
+    // ⭐⭐ MÉTODO PARA BOTÃO MOBILE (OnClick direto no objeto) ⭐⭐
+    public void BotaoMobileInteragir()
+    {
+        if (jogadorPerto)
+        {
+            AbrirPainel();
+        }
+    }
+
+    void AbrirPainel()
+    {
+        Debug.Log("Interação detectada. Abrindo painel e escondendo prompt.");
+
+        if (painelUI != null)
+            painelUI.SetActive(true);
+
+        if (promptE != null)
+            promptE.SetActive(false);
     }
 
     void OnTriggerEnter2D(Collider2D other)

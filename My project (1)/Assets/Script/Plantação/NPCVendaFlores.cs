@@ -1,10 +1,10 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using TMPro;
 using System.Collections;
 
 public class NPCVendaFlores : MonoBehaviour
 {
-    [Header("ConfiguraÁıes do NPC")]
+    [Header("Configura√ß√µes do NPC")]
     [SerializeField] private float interacaoDistancia = 3f;
     [SerializeField] private KeyCode teclaInteracao = KeyCode.E;
     [SerializeField] private GameObject painelVenda;
@@ -29,7 +29,7 @@ public class NPCVendaFlores : MonoBehaviour
 
     void Start()
     {
-        // Configurar referÍncias
+        // Configurar refer√™ncias
         if (painelVenda != null)
             painelVenda.SetActive(false);
 
@@ -39,7 +39,7 @@ public class NPCVendaFlores : MonoBehaviour
         if (botaoFechar != null)
             botaoFechar.onClick.AddListener(FecharPainelVenda);
 
-        // Configurar texto dos botıes se existirem
+        // Configurar texto dos bot√µes se existirem
         TextMeshProUGUI textoBotaoVender = botaoVender.GetComponentInChildren<TextMeshProUGUI>();
         if (textoBotaoVender != null)
         {
@@ -52,7 +52,7 @@ public class NPCVendaFlores : MonoBehaviour
             textoBotaoFechar.text = "FECHAR";
         }
 
-        // Adicionar o componente vendedor se n„o existir
+        // Adicionar o componente vendedor se n√£o existir
         vendedor = GetComponent<BotaoVenderItem>();
         if (vendedor == null)
             vendedor = gameObject.AddComponent<BotaoVenderItem>();
@@ -96,7 +96,7 @@ public class NPCVendaFlores : MonoBehaviour
         bool estavaPerto = jogadorPerto;
         jogadorPerto = distancia <= interacaoDistancia;
 
-        // Atualizar texto de instruÁ„o
+        // Atualizar texto de instru√ß√£o
         if (textoInstrucao != null)
         {
             textoInstrucao.gameObject.SetActive(jogadorPerto);
@@ -114,7 +114,7 @@ public class NPCVendaFlores : MonoBehaviour
 
     void OnProximidadeAlterada(bool estaPerto)
     {
-        Debug.Log(estaPerto ? "Jogador est· perto do NPC" : "Jogador saiu do alcance");
+        Debug.Log(estaPerto ? "Jogador est√° perto do NPC" : "Jogador saiu do alcance");
     }
 
     public void AbrirPainelVenda()
@@ -144,7 +144,7 @@ public class NPCVendaFlores : MonoBehaviour
         Cursor.visible = true;
 
         Debug.Log("Jogo pausado - Painel de vendas aberto");
-        Debug.Log("Cursor visÌvel: " + Cursor.visible + ", LockState: " + Cursor.lockState);
+        Debug.Log("Cursor vis√≠vel: " + Cursor.visible + ", LockState: " + Cursor.lockState);
     }
 
     void DespausarJogo()
@@ -157,7 +157,7 @@ public class NPCVendaFlores : MonoBehaviour
         Cursor.visible = cursorVisivelAnterior;
 
         Debug.Log("Jogo despausado - Painel de vendas fechado");
-        Debug.Log("Cursor visÌvel: " + Cursor.visible + ", LockState: " + Cursor.lockState);
+        Debug.Log("Cursor vis√≠vel: " + Cursor.visible + ", LockState: " + Cursor.lockState);
     }
 
     void VenderFlores()
@@ -190,7 +190,7 @@ public class NPCVendaFlores : MonoBehaviour
 
             if (!temFlores)
             {
-                textoStatus.text = "<color=red>VocÍ n„o tem flores para vender.</color>";
+                textoStatus.text = "<color=red>Voc√™ n√£o tem flores para vender.</color>";
                 textoStatus.alignment = TextAlignmentOptions.Center;
             }
             else
@@ -216,10 +216,26 @@ public class NPCVendaFlores : MonoBehaviour
         return false;
     }
 
-    // MÈtodo p˙blico para ser usado no OnClick do bot„o
+    // M√©todo p√∫blico para ser usado no OnClick do bot√£o
     public void BotaoFecharPainel()
     {
         FecharPainelVenda();
+    }
+
+    // ‚≠ê‚≠ê M√âTODO PARA BOT√ÉO MOBILE (OnClick direto no NPC) ‚≠ê‚≠ê
+    public void BotaoMobileInteragir()
+    {
+        if (jogadorPerto)
+        {
+            if (painelVenda != null && !painelVenda.activeInHierarchy)
+            {
+                AbrirPainelVenda();
+            }
+            else
+            {
+                FecharPainelVenda();
+            }
+        }
     }
 
     // Visual helper no editor
@@ -229,7 +245,7 @@ public class NPCVendaFlores : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, interacaoDistancia);
     }
 
-    // Para interaÁ„o por trigger
+    // Para intera√ß√£o por trigger
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))

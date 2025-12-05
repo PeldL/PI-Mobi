@@ -200,6 +200,22 @@ public class NPCDialogueSimple : MonoBehaviour
         darMachado = machado;
     }
 
+    // ⭐⭐ MÉTODO PARA BOTÃO MOBILE (OnClick direto no NPC) ⭐⭐
+    public void BotaoMobileInteragir()
+    {
+        if (jogadorPerto)
+        {
+            if (!emDialogo)
+            {
+                IniciarDialogo();
+            }
+            else if (!digitando && textoDialogo.text == dialogoAtual[linhaAtual])
+            {
+                ProximaLinha();
+            }
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("Player"))

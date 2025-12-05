@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -20,14 +20,28 @@ public class CasaInteracao : MonoBehaviour
     {
         if (jogadorPerto && Input.GetKeyDown(KeyCode.E))
         {
-            // Salvar a cena atual como origem antes de trocar
-            if (ScenePositionManager.Instance != null)
-            {
-                ScenePositionManager.Instance.SaveOriginScene(SceneManager.GetActiveScene().name);
-            }
-
-            SceneManager.LoadScene(nomeCena);
+            EntrarNaCasa();
         }
+    }
+
+    // ⭐⭐ MÉTODO PARA BOTÃO MOBILE (OnClick direto na casa) ⭐⭐
+    public void BotaoMobileInteragir()
+    {
+        if (jogadorPerto)
+        {
+            EntrarNaCasa();
+        }
+    }
+
+    void EntrarNaCasa()
+    {
+        // Salvar a cena atual como origem antes de trocar
+        if (ScenePositionManager.Instance != null)
+        {
+            ScenePositionManager.Instance.SaveOriginScene(SceneManager.GetActiveScene().name);
+        }
+
+        SceneManager.LoadScene(nomeCena);
     }
 
     void OnTriggerEnter2D(Collider2D other)
