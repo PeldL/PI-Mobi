@@ -10,17 +10,19 @@ public class CharacterController2D : MonoBehaviour
     Vector2 motionVector;
     public Vector2 lastMotionVector;
     public bool moving;
-    public bool wasMoving; // Para verificar se o estado de movimento mudou
-    public AudioSource audioSource; // Referência para o AudioSource
-    public AudioClip walkingSound; // Som de caminhada
+    public bool wasMoving;
+    public AudioSource audioSource;
+    public AudioClip walkingSound;
+
+    [Header("Mobile Controls")]
+    public Joystick movementJoystick; // Usando a classe base Joystick
 
     void Awake()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>(); // Pega o AudioSource do objeto
+        audioSource = GetComponent<AudioSource>();
 
-        // Se não tiver AudioSource, adiciona um
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
@@ -29,14 +31,15 @@ public class CharacterController2D : MonoBehaviour
 
     void Update()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
+        // Pega input do joystick ou teclado
+        float horizontal = movementJoystick != null ? movementJoystick.Horizontal : Input.GetAxisRaw("Horizontal");
+        float vertical = movementJoystick != null ? movementJoystick.Vertical : Input.GetAxisRaw("Vertical");
 
         motionVector = new Vector2(horizontal, vertical);
         animator.SetFloat("Horizontal", horizontal);
         animator.SetFloat("Vertical", vertical);
 
-        bool wasMovingPreviously = moving; // Guarda o estado anterior
+        bool wasMovingPreviously = moving;
         moving = horizontal != 0 || vertical != 0;
         animator.SetBool("moving", moving);
 
@@ -47,7 +50,6 @@ public class CharacterController2D : MonoBehaviour
             animator.SetFloat("lastHorizontal", horizontal);
         }
 
-        // Controla o som de caminhada
         HandleWalkingSound(wasMovingPreviously);
     }
 
@@ -63,17 +65,15 @@ public class CharacterController2D : MonoBehaviour
 
     private void HandleWalkingSound(bool wasMovingPreviously)
     {
-        // Se começou a se mover agora
         if (moving && !wasMovingPreviously)
         {
             if (walkingSound != null && audioSource != null)
             {
                 audioSource.clip = walkingSound;
-                audioSource.loop = true; // Faz o som loopar enquanto estiver andando
+                audioSource.loop = true;
                 audioSource.Play();
             }
         }
-        // Se parou de se mover
         else if (!moving && wasMovingPreviously)
         {
             if (audioSource != null && audioSource.isPlaying)

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Linq;
 
 public class PlayerMachado : MonoBehaviour
 {
@@ -50,6 +49,20 @@ public class PlayerMachado : MonoBehaviour
             PlayerPrefs.SetInt(MACHADO_PREF_KEY, 1);
             PlayerPrefs.Save();
             Debug.Log("🪓 Machado desbloqueado!");
+        }
+    }
+
+    // MÉTODO PARA BOTÃO MOBILE (OnClick)
+    public void UsarMachadoMobile()
+    {
+        if (machadoDesbloqueado && !estaAtacando)
+        {
+            Debug.Log("📱 Machado usado via botão mobile!");
+            UsarMachado();
+        }
+        else if (!machadoDesbloqueado)
+        {
+            Debug.Log("❌ Machado não desbloqueado!");
         }
     }
 
